@@ -1,9 +1,11 @@
-// SPDX-License-Identifier: GPL
+// SPDX-License-Identifier: GPL-2.0
 #include <linux/module.h>
 #include <linux/debugfs.h>
 #include <linux/jiffies.h>
 #include <linux/stat.h>
 #include <linux/syscalls.h>
+
+#include "test_identities.h"
 
 static struct dentry *dir;
 
@@ -75,6 +77,10 @@ static const struct file_operations data_fops = {
 static int init_hello(void)
 {
 	pr_debug("Hello, KernelCare!");
+
+	if (test_identities())
+		return 1;
+
 	dir = debugfs_create_dir("kernelcare", NULL);
 	if (IS_ERR(dir)) {
 		pr_err("Failed to create dir: %ld", PTR_ERR(dir));

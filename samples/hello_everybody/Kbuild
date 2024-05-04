@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL
 
-obj-$(CONFIG_HELLO_MODULE) := hello_everybody.o
-CFLAGS_hello_everybody.o := -DDEBUG
+obj-$(CONFIG_HELLO_MODULE) += hello_everybody.o
+obj-$(CONFIG_HELLO_MODULE) += identities.o test_identities.o
+
+CFLAGS_hello_everybody.o := -DDEBUG -I$(src)
