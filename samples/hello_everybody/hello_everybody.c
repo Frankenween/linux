@@ -80,6 +80,7 @@ static int init_hello(void)
 		pr_err("Failed to create dir: %ld", PTR_ERR(dir));
 		return PTR_ERR(dir);
 	}
+	/* easiest way would be smthing like - debugfs_create_u64(..., (u64 *)&jiffies); */
 	struct dentry *jiff_file = debugfs_create_file("jiffies", 0444, dir, NULL, &jiffies_fops);
 
 	if (IS_ERR(jiff_file)) {
@@ -104,6 +105,7 @@ static int init_hello(void)
 
 	inode_lock(data_file->d_inode);
 	int attr_assign_ret = notify_change(&nop_mnt_idmap, data_file, &data_attr, NULL);
+	/* what it is used for? why debugfs_create_file(...0644) is not enough? */
 
 	if (attr_assign_ret) {
 		pr_err("Error setting attributes: %d", attr_assign_ret);
